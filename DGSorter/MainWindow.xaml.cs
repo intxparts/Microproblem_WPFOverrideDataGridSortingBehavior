@@ -28,14 +28,6 @@ namespace DGSorter
             _viewModel = new MainWindowViewModel();
             this.DataContext = _viewModel;
         }
-
-        //private void DataGrid_Sorting(object sender, DataGridSortingEventArgs e)
-        //{
-        //    if ((string) e.Column.Header == "Name" && e.Column.SortDirection == null)
-        //        e.Column.SortDirection = System.ComponentModel.ListSortDirection.Ascending;
-
-        //    e.Handled = false;
-        //}
     }
 
     public static class DataGridExtensions
