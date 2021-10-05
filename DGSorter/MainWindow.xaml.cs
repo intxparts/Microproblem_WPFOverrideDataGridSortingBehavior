@@ -116,6 +116,8 @@ namespace DGSorter
         {
             _people = new List<Person>();
             _people.Add(new Person() { Name = "James", Age = 33 });
+            _people.Add(new Person() { Name = "Lisa", Age = 33 });
+            _people.Add(new Person() { Name = "Mary", Age = 33 });
             _people.Add(new Person() { Name = "Tim", Age = 21 });
             _people.Add(new Person() { Name = "Matt", Age = 28 });
             _people.Add(new Person() { Name = "Andrew", Age = 45 });
