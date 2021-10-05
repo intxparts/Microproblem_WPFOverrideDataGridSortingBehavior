@@ -7,10 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <DataGrid ItemsSource="{Binding People}" AutoGenerateColumns="False" Sorting="DataGrid_Sorting">
+        <DataGrid ItemsSource="{Binding People}" AutoGenerateColumns="False" local:DataGridExtensions.RegisterInitialSortDescending="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                <DataGridTextColumn Header="Age" Binding="{Binding Age}" />
+                <DataGridTextColumn Header="Age" Binding="{Binding Age}" local:DataGridExtensions.InitialSortDescending="True" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

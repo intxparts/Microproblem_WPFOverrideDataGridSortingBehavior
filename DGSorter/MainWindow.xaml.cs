@@ -29,12 +29,75 @@ namespace DGSorter
             this.DataContext = _viewModel;
         }
 
-        private void DataGrid_Sorting(object sender, DataGridSortingEventArgs e)
-        {
-            if ((string) e.Column.Header == "Name" && e.Column.SortDirection == null)
-                e.Column.SortDirection = System.ComponentModel.ListSortDirection.Ascending;
+        //private void DataGrid_Sorting(object sender, DataGridSortingEventArgs e)
+        //{
+        //    if ((string) e.Column.Header == "Name" && e.Column.SortDirection == null)
+        //        e.Column.SortDirection = System.ComponentModel.ListSortDirection.Ascending;
 
-            e.Handled = false;
+        //    e.Handled = false;
+        //}
+    }
+
+    public static class DataGridExtensions
+    {
+        public static readonly DependencyProperty InitialSortDescending = DependencyProperty.RegisterAttached(
+            nameof(InitialSortDescending), 
+            typeof(bool), 
+            typeof(DataGridExtensions),
+            new PropertyMetadata(false)
+        );
+
+        public static void SetInitialSortDescending(DependencyObject e, bool v)
+        {
+            e.SetValue(InitialSortDescending, v);
+        }
+
+        public static bool GetInitialSortDescending(DependencyObject e)
+        {
+            return (bool)e.GetValue(InitialSortDescending);
+        }
+
+        public static readonly DependencyProperty RegisterInitialSortDescending = DependencyProperty.RegisterAttached(
+            nameof(RegisterInitialSortDescending),
+            typeof(bool),
+            typeof(DataGridExtensions),
+            new PropertyMetadata(false, OnRegisterSorting)
+        );
+
+        public static void SetRegisterInitialSortDescending(DependencyObject e, bool v)
+        {
+            e.SetValue(RegisterInitialSortDescending, v);
+        }
+
+        public static bool GetRegisterInitialSortDescending(DependencyObject e)
+        {
+            return (bool)e.GetValue(RegisterInitialSortDescending);
+        }
+
+        private static void OnRegisterSorting(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var grid = d as DataGrid;
+            if (grid == null)
+                return;
+
+            grid.Unloaded += Grid_Unloaded;
+            grid.Sorting += Grid_Sorting;
+        }
+
+        private static void Grid_Unloaded(object sender, RoutedEventArgs e)
+        {
+            var grid = sender as DataGrid;
+            if (grid == null)
+                return;
+
+            grid.Unloaded -= Grid_Unloaded;
+            grid.Sorting -= Grid_Sorting;
+        }
+
+        private static void Grid_Sorting(object sender, DataGridSortingEventArgs e)
+        {
+            if (e.Column.SortDirection == null && (bool) e.Column.GetValue(InitialSortDescending))
+                e.Column.SortDirection = System.ComponentModel.ListSortDirection.Ascending;
         }
     }
 
